@@ -26,11 +26,13 @@ class CloudmersiveImageToTextConverter : ImageToTextConverter {
         formData.add("imageFile", InputStreamResource(imageStream))
         val response = restTemplate.postForObject("/ocr/photo/toText", HttpEntity(formData), Response::class.java)
         log.info("Conversion result: $response")
-        return response?.textResult ?: ""
+        return response?.normalizedTextResult ?: ""
     }
 
     private data class Response(
             @JsonProperty("TextResult") val textResult: String,
             @JsonProperty("MeanConfidenceLevel") val meanConfidenceLevel: String
-    )
+    ) {
+        val normalizedTextResult = textResult.replace(Regex("\\s+"), " ")
+    }
 }
