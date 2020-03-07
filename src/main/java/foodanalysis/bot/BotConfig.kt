@@ -12,17 +12,23 @@ open class BotConfig(private val properties: Properties) {
 
     @Bean
     open fun bot(): LongPollingBot {
-        val options = BotOptions(properties.telegramBot.username, properties.telegramBot.token)
-        options.options = options()
-        return LongPollingBot(options)
+        val telegramBot = properties.telegramBot
+        val botOptions = BotOptions(telegramBot.username, telegramBot.token)
+        botOptions.options = options()
+        return LongPollingBot(botOptions)
     }
 
     private fun options(): DefaultBotOptions {
         val options = DefaultBotOptions()
-        options.proxyType = DefaultBotOptions.ProxyType.SOCKS5
-        options.proxyHost = properties.socksProxy.host
-        options.proxyPort = properties.socksProxy.port
-        setGlobalNetCredentials(properties.socksProxy.username, properties.socksProxy.password)
+        val socksProxy = properties.socksProxy
+        if (socksProxy.host != null && socksProxy.port > 0) {
+            options.proxyType = DefaultBotOptions.ProxyType.SOCKS5
+            options.proxyHost = socksProxy.host
+            options.proxyPort = socksProxy.port
+        }
+        if (socksProxy.username != null && socksProxy.password != null) {
+            setGlobalNetCredentials(socksProxy.username!!, socksProxy.password!!)
+        }
         return options
     }
 
