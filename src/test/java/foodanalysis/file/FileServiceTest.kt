@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringRunner
 import java.io.ByteArrayInputStream
+import kotlin.random.Random
 
 @RunWith(SpringRunner::class)
 @DataMongoTest
@@ -30,5 +31,25 @@ class FileServiceTest {
         val fileInfo = fileService.upload(uploadStream, filename)
         assertThat(fileInfo.id).isNotBlank()
         assertThat(fileInfo.name).isEqualTo(filename)
+    }
+
+    @Test
+    fun `Given file uploaded, when get info, then response contains correct information`() {
+        val filename = "test"
+        val uploadStream = ByteArrayInputStream(ByteArray(1000000))
+        val fileInfo = fileService.upload(uploadStream, filename)
+
+        val infoRetrievedById = fileService.getInfo(fileInfo.id)
+        assertThat(infoRetrievedById.id).isEqualTo(fileInfo.id)
+        assertThat(infoRetrievedById.name).isEqualTo(filename)
+    }
+
+    @Test
+    fun `Given file uploaded, when download file, then contents are equal`() {
+        val originalContent = Random.nextBytes(64000000)
+        val fileInfo = fileService.upload(originalContent.inputStream(), "test")
+
+        val fileDownload = fileService.download(fileInfo.id)
+        assertThat(fileDownload.downloadStream).hasSameContentAs(originalContent.inputStream())
     }
 }
