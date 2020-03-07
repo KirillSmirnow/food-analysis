@@ -4,7 +4,7 @@ import java.io.InputStream
 
 interface FileService {
 
-    fun upload(uploadStream: InputStream, filename: String?): FileInfo
+    fun upload(uploadStream: InputStream, filename: String): FileInfo
 
     fun getInfo(id: String): FileInfo
 

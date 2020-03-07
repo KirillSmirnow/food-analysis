@@ -12,7 +12,7 @@ import java.io.InputStream
 @Service
 class MongoFileService(private val gridFsTemplate: GridFsTemplate) : FileService {
 
-    override fun upload(uploadStream: InputStream, filename: String?): FileInfo {
+    override fun upload(uploadStream: InputStream, filename: String): FileInfo {
         val id = gridFsTemplate.store(uploadStream, filename).toHexString()
         return FileInfo(id, filename)
     }
