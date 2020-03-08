@@ -3,6 +3,7 @@ package foodanalysis.user
 import foodanalysis.MainException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class UserServiceImpl(private val userRepository: UserRepository) : UserService {
@@ -19,5 +20,9 @@ class UserServiceImpl(private val userRepository: UserRepository) : UserService 
             return authentication.principal
         }
         throw MainException("User not authenticated")
+    }
+
+    override fun getById(id: UUID): User {
+        return userRepository.findById(id).orElseThrow { MainException("User not found") }
     }
 }
