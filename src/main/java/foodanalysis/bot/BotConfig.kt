@@ -1,6 +1,8 @@
 package foodanalysis.bot
 
 import foodanalysis.Properties
+import foodanalysis.request.RequestService
+import foodanalysis.user.UserService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.telegram.telegrambots.bots.DefaultBotOptions
@@ -11,11 +13,11 @@ import java.net.PasswordAuthentication
 open class BotConfig(private val properties: Properties) {
 
     @Bean
-    open fun bot(): LongPollingBot {
+    open fun bot(userService: UserService, requestService: RequestService): LongPollingBot {
         val telegramBot = properties.telegramBot
         val botOptions = BotOptions(telegramBot.username, telegramBot.token)
         botOptions.options = options()
-        return LongPollingBot(botOptions)
+        return LongPollingBot(botOptions, userService, requestService)
     }
 
     private fun options(): DefaultBotOptions {
