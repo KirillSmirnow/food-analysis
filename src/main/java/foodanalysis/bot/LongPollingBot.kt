@@ -6,14 +6,16 @@ import foodanalysis.user.UserService
 import org.telegram.telegrambots.ApiContextInitializer
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.TelegramBotsApi
+import org.telegram.telegrambots.meta.api.methods.GetFile
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.Update
+import java.io.InputStream
 
 class LongPollingBot(private val options: BotOptions,
                      private val userService: UserService,
                      private val requestService: RequestService
-) : TelegramLongPollingBot(options.options) {
+) : TelegramLongPollingBot(options.options), Bot {
 
     init {
         ApiContextInitializer.init()
@@ -44,7 +46,12 @@ class LongPollingBot(private val options: BotOptions,
         }
     }
 
-    private fun sendMessage(chatId: Long, text: String) {
-        execute(SendMessage(chatId, text).enableHtml(true).disableWebPagePreview())
+    override fun sendMessage(chatId: Long, text: String) {
+        execute(SendMessage(chatId, text).enableHtml(true))
+    }
+
+    override fun fetchFile(fileId: String): InputStream {
+        val fileInfo = execute(GetFile().setFileId(fileId))
+        return downloadFileAsStream(fileInfo)
     }
 }
