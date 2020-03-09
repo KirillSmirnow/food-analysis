@@ -1,3 +1,13 @@
+spring:
+  data:
+    mongodb:
+      database: main
+      host: mongo
+      username: root
+      password: p7uOsOyR1GhRfqD2xoY0BocRXkUBArug
+      authentication-database: admin
+  rabbitmq:
+    host: rabbitmq
 main:
   telegram-bot:
     username: FoodAnalysisBot
