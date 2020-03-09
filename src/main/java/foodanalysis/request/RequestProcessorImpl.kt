@@ -19,26 +19,34 @@ class RequestProcessorImpl(private val imageToTextConverter: ImageToTextConverte
 ) : RequestProcessor {
 
     override fun performImageDownloading(requestId: UUID) {
+        val request = getById(requestId)
+        val imageTelegramId = request.image?.telegramId ?: throw MainException("No image Telegram ID")
+        val imageStream = bot.fetchFile(imageTelegramId)
+        val imageInfo = fileService.upload(imageStream, "")
+        request.image.systemId = imageInfo.id
+        requestRepository.save(request)
+        rabbitTemplate.convertAndSend("performOcr", request.id)
     }
 
     override fun performOcr(requestId: UUID) {
         val request = getById(requestId)
-        val imageSystemId = request.image?.systemId ?: throw MainException("Unable to perform OCR: image ID not found")
-        val imageStream = fileService.download(imageSystemId).downloadStream
-        val text = imageToTextConverter.convert(imageStream)
+        val imageSystemId = request.image?.systemId ?: throw MainException("No image system ID")
+        val image = fileService.download(imageSystemId)
+        val text = imageToTextConverter.convert(image.downloadStream)
         request.text = text
         requestRepository.save(request)
+        rabbitTemplate.convertAndSend("performAnalysis", request.id)
     }
 
     override fun performAnalysis(requestId: UUID) {
         val request = getById(requestId)
-        val text = request.text ?: throw MainException("Unable to perform analysis: text not found")
+        val text = request.text ?: throw MainException("No text")
         val report = analyser.analyse(text)
         request.report = report
         requestRepository.save(request)
     }
 
     private fun getById(id: UUID): Request {
-        return requestRepository.findById(id).orElseThrow { MainException("Request not found: id=$id") }
+        return requestRepository.findById(id).orElseThrow { MainException("Request not found") }
     }
 }
