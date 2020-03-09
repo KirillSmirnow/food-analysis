@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service
 class DumbAnalyser : Analyser {
 
     override fun analyse(text: String): Report {
-        return Report("OK")
+        return Report("$text\n\nResult: OK")
     }
 }
