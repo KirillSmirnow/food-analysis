@@ -6,7 +6,9 @@ import foodanalysis.user.UserService
 import org.telegram.telegrambots.ApiContextInitializer
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.TelegramBotsApi
+import org.telegram.telegrambots.meta.api.methods.ActionType
 import org.telegram.telegrambots.meta.api.methods.GetFile
+import org.telegram.telegrambots.meta.api.methods.send.SendChatAction
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.Update
@@ -40,9 +42,14 @@ class LongPollingBot(private val options: BotOptions,
         if (message.hasText()) {
             requestService.createOfText(message.text)
         } else if (message.hasPhoto()) {
+            indicateProcessing(user.id.toLong())
             val bestQualityPhoto = message.photo.maxBy { it.fileSize }!!
             requestService.createOfTelegramImage(bestQualityPhoto.fileId)
         }
+    }
+
+    private fun indicateProcessing(chatId: Long) {
+        execute(SendChatAction().setChatId(chatId).setAction(ActionType.TYPING))
     }
 
     override fun sendMessage(chatId: Long, text: String) {
