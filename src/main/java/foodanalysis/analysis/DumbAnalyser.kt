@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service
 class DumbAnalyser : Analyser {
 
     override fun analyse(text: String): Report {
-        return Report("$text\n\nResult: OK")
+        val boundedText = if (text.length > 4000) "${text.substring(0, 4000)}..." else text
+        return Report("$boundedText\n\n<u>Result</u>: <b>OK</b>")
     }
 }
