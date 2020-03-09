@@ -40,9 +40,8 @@ class LongPollingBot(private val options: BotOptions,
         if (message.hasText()) {
             requestService.createOfText(message.text)
         } else if (message.hasPhoto()) {
-            message.photo.forEach {
-                requestService.createOfTelegramImage(it.fileId)
-            }
+            val bestQualityPhoto = message.photo.maxBy { it.fileSize }!!
+            requestService.createOfTelegramImage(bestQualityPhoto.fileId)
         }
     }
 
