@@ -8,6 +8,9 @@ spring:
       authentication-database: admin
   rabbitmq:
     host: rabbitmq
+    listener:
+      simple:
+        default-requeue-rejected: off
   servlet:
     multipart:
       max-file-size: 10MB
