@@ -5,11 +5,10 @@ import foodanalysis.file.FileService
 import foodanalysis.request.Request
 import foodanalysis.request.RequestService
 import foodanalysis.user.UserService
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.data.domain.Page
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
+import java.util.*
 
 @RestController
 @RequestMapping("/requests")
@@ -28,5 +27,14 @@ class RequestController(private val requestService: RequestService,
             return requestService.createOfImage(imageInfo.id)
         }
         throw MainException("You must provide text or image")
+    }
+
+    @GetMapping("/{id}")
+    fun getByRequestId(@PathVariable id: UUID): Request = requestService.getById(id)
+
+    @GetMapping
+    fun getByClientId(@RequestParam clientId: String, @RequestParam page: Int): Page<Request> {
+        userService.authenticate(clientId)
+        return requestService.getByCurrentUser(page)
     }
 }

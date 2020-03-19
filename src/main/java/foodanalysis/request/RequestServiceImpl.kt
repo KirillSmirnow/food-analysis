@@ -6,6 +6,9 @@ import foodanalysis.request.Request.Companion.ofTelegramImage
 import foodanalysis.request.Request.Companion.ofText
 import foodanalysis.user.UserService
 import org.springframework.amqp.rabbit.core.RabbitTemplate
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -17,6 +20,12 @@ class RequestServiceImpl(private val requestRepository: RequestRepository,
 
     override fun getById(id: UUID): Request {
         return requestRepository.findById(id).orElseThrow { MainException("Request not found: id=$id") }
+    }
+
+    override fun getByCurrentUser(page: Int): Page<Request> {
+        val user = userService.getAuthenticatedUser()
+        val pageable = PageRequest.of(page, 10, Sort.by("createdOn").descending())
+        return requestRepository.findByUserId(user.id, pageable)
     }
 
     override fun createOfText(text: String): Request {
