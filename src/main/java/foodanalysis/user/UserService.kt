@@ -4,6 +4,8 @@ import java.util.*
 
 interface UserService {
 
+    fun authenticate(clientId: String)
+
     fun authenticate(telegramAccount: TelegramAccount)
 
     fun getAuthenticatedUser(): User
