@@ -8,6 +8,9 @@ spring:
       authentication-database: admin
   rabbitmq:
     host: rabbitmq
+  servlet:
+    multipart:
+      max-file-size: 10MB
 main:
   telegram-bot:
     username: FoodAnalysisBot
