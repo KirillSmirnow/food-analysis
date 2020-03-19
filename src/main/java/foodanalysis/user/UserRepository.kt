@@ -5,5 +5,7 @@ import java.util.*
 
 interface UserRepository : MongoRepository<User, UUID> {
 
+    fun findByClientId(clientId: String): User?
+
     fun findByTelegramAccountId(id: Long): User?
 }
