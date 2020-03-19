@@ -19,6 +19,11 @@ data class Request(
             return Request(randomUUID(), now(), userId, text = text)
         }
 
+        fun ofImage(userId: UUID, imageId: String): Request {
+            val image = Image(systemId = imageId)
+            return Request(randomUUID(), now(), userId, image = image)
+        }
+
         fun ofTelegramImage(userId: UUID, imageId: String): Request {
             val image = Image(telegramId = imageId)
             return Request(randomUUID(), now(), userId, image = image)

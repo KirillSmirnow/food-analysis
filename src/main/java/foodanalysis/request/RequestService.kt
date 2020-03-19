@@ -6,7 +6,9 @@ interface RequestService {
 
     fun getById(id: UUID): Request
 
-    fun createOfText(text: String)
+    fun createOfText(text: String): Request
 
-    fun createOfTelegramImage(imageId: String)
+    fun createOfImage(imageId: String): Request
+
+    fun createOfTelegramImage(imageId: String): Request
 }

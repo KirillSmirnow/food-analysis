@@ -1,6 +1,7 @@
 package foodanalysis.request
 
 import foodanalysis.MainException
+import foodanalysis.request.Request.Companion.ofImage
 import foodanalysis.request.Request.Companion.ofTelegramImage
 import foodanalysis.request.Request.Companion.ofText
 import foodanalysis.user.UserService
@@ -18,15 +19,24 @@ class RequestServiceImpl(private val requestRepository: RequestRepository,
         return requestRepository.findById(id).orElseThrow { MainException("Request not found: id=$id") }
     }
 
-    override fun createOfText(text: String) {
+    override fun createOfText(text: String): Request {
         val user = userService.getAuthenticatedUser()
         val request = requestRepository.save(ofText(user.id, text))
         rabbitTemplate.convertAndSend("performAnalysis", request.id)
+        return request
     }
 
-    override fun createOfTelegramImage(imageId: String) {
+    override fun createOfImage(imageId: String): Request {
+        val user = userService.getAuthenticatedUser()
+        val request = requestRepository.save(ofImage(user.id, imageId))
+        rabbitTemplate.convertAndSend("performOcr", request.id)
+        return request
+    }
+
+    override fun createOfTelegramImage(imageId: String): Request {
         val user = userService.getAuthenticatedUser()
         val request = requestRepository.save(ofTelegramImage(user.id, imageId))
         rabbitTemplate.convertAndSend("performImageDownloading", request.id)
+        return request
     }
 }
