@@ -14,4 +14,10 @@ data class Substance(
             return Substance(randomUUID(), names, code, healthImpact)
         }
     }
+
+    fun isContainedIn(text: String): Boolean = nameIsContainedIn(text) || codeIsContainedIn(text)
+
+    private fun nameIsContainedIn(text: String): Boolean = names.any { it in text }
+
+    private fun codeIsContainedIn(text: String): Boolean = code != null && code in text
 }

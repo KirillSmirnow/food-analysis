@@ -1,3 +1,5 @@
 package foodanalysis.analysis
 
-data class Report(val conclusion: String)
+import foodanalysis.analysis.substance.Substance
+
+data class Report(val substances: List<Substance>)
