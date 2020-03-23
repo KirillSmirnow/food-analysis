@@ -5,7 +5,6 @@ import foodanalysis.analysis.Analyser
 import foodanalysis.bot.Bot
 import foodanalysis.file.FileService
 import foodanalysis.image.ImageToTextConverter
-import foodanalysis.user.UserRepository
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.stereotype.Service
 import java.util.*
@@ -13,7 +12,7 @@ import java.util.*
 @Service
 class RequestProcessorImpl(private val imageToTextConverter: ImageToTextConverter,
                            private val requestRepository: RequestRepository,
-                           private val userRepository: UserRepository,
+                           private val requestReporter: RequestReporter,
                            private val rabbitTemplate: RabbitTemplate,
                            private val fileService: FileService,
                            private val analyser: Analyser,
@@ -46,21 +45,10 @@ class RequestProcessorImpl(private val imageToTextConverter: ImageToTextConverte
         val report = analyser.analyse(text)
         request.report = report
         requestRepository.save(request)
-        sendReportToUser(request)
+        requestReporter.sendReportToUser(request.id)
     }
 
     private fun getById(id: UUID): Request {
         return requestRepository.findById(id).orElseThrow { MainException("Request not found") }
-    }
-
-    private fun sendReportToUser(request: Request) {
-        val report = request.report
-        if (report != null) {
-            val user = userRepository.findById(request.userId).orElseThrow { MainException("User not found") }
-            val telegramId = user.telegramAccount?.id
-            if (telegramId != null) {
-                bot.sendMessage(telegramId, report.conclusion)
-            }
-        }
     }
 }
