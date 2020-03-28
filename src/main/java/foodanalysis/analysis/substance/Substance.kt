@@ -22,7 +22,7 @@ data class Substance(
     }
 
     private fun isCodeContainedIn(text: String): Boolean {
-        return code != null && text.contains(code, ignoreCase = true)
+        return !code.isNullOrBlank() && text.contains(code, ignoreCase = true)
     }
 
     fun isSameAs(substance: Substance): Boolean = isNameSame(substance) || isCodeSame(substance)
@@ -34,7 +34,7 @@ data class Substance(
     }
 
     private fun isCodeSame(substance: Substance): Boolean {
-        return code != null && substance.code.equals(code, ignoreCase = true)
+        return !code.isNullOrBlank() && substance.code.equals(code, ignoreCase = true)
     }
 
     fun apply(substance: Substance): Substance? {

@@ -30,6 +30,10 @@ class SubstanceImporterImpl(private val substanceRepository: SubstanceRepository
     }
 
     override fun update(inputStreams: List<InputStream>): SubstanceImport {
-        TODO("Not yet implemented")
+        val substanceImport = dryRun(inputStreams)
+        substanceRepository.deleteAll(substanceImport.remove)
+        substanceRepository.saveAll(substanceImport.add)
+        substanceRepository.saveAll(substanceImport.modify.map { it.second })
+        return substanceImport
     }
 }
