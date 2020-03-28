@@ -15,9 +15,32 @@ data class Substance(
         }
     }
 
-    fun isContainedIn(text: String): Boolean = nameIsContainedIn(text) || codeIsContainedIn(text)
+    fun isContainedIn(text: String): Boolean = isNameContainedIn(text) || isCodeContainedIn(text)
 
-    private fun nameIsContainedIn(text: String): Boolean = names.any { it in text }
+    private fun isNameContainedIn(text: String): Boolean {
+        return names.any { text.contains(it, ignoreCase = true) }
+    }
 
-    private fun codeIsContainedIn(text: String): Boolean = code != null && code in text
+    private fun isCodeContainedIn(text: String): Boolean {
+        return code != null && text.contains(code, ignoreCase = true)
+    }
+
+    fun isSameAs(substance: Substance): Boolean = isNameSame(substance) || isCodeSame(substance)
+
+    private fun isNameSame(substance: Substance): Boolean {
+        return names.any { name ->
+            substance.names.any { name.equals(it, ignoreCase = true) }
+        }
+    }
+
+    private fun isCodeSame(substance: Substance): Boolean {
+        return code != null && substance.code.equals(code, ignoreCase = true)
+    }
+
+    fun apply(substance: Substance): Substance? {
+        if (names == substance.names && code == substance.code && healthImpact == substance.healthImpact) {
+            return null
+        }
+        return Substance(id, substance.names, substance.code, substance.healthImpact)
+    }
 }
