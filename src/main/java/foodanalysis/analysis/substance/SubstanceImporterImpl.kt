@@ -5,18 +5,20 @@ import org.apache.commons.csv.CSVParser
 import org.apache.commons.csv.CSVRecord
 import org.springframework.stereotype.Service
 import java.io.InputStream
-import java.nio.charset.Charset.defaultCharset
+import java.nio.charset.StandardCharsets
 
 @Service
-class SubstanceServiceImpl(private val substanceRepository: SubstanceRepository) : SubstanceService {
+class SubstanceImporterImpl(private val substanceRepository: SubstanceRepository) : SubstanceImporter {
 
-    override fun parseCsv(inputStreams: List<InputStream>): List<Substance> {
-        return inputStreams.flatMap { parseCsv(it) }
+    override fun dryRun(inputStreams: List<InputStream>): SubstanceImport {
+        val existing = substanceRepository.findAll()
+        val importing = inputStreams.flatMap { parseCsv(it) }
+        return SubstanceImport(existing, importing)
     }
 
     private fun parseCsv(inputStream: InputStream): List<Substance> {
         val format = CSVFormat.DEFAULT.withFirstRecordAsHeader()
-        return CSVParser.parse(inputStream, defaultCharset(), format).records
+        return CSVParser.parse(inputStream, StandardCharsets.UTF_8, format).records
                 .map { Substance.of(extractList(it, "Name"), it["Code"], it["HealthImpact"]) }
     }
 
@@ -27,7 +29,7 @@ class SubstanceServiceImpl(private val substanceRepository: SubstanceRepository)
                 .filterNot { it.isBlank() }
     }
 
-    override fun parseCsvAndUpdate(inputStreams: List<InputStream>): List<Substance> {
-        TODO()
+    override fun update(inputStreams: List<InputStream>): SubstanceImport {
+        TODO("Not yet implemented")
     }
 }
