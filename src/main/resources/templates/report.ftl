@@ -17,7 +17,7 @@
             <#else>
                 &#128312; ${substance.names[0]}
             </#if>
-            ${substance.healthImpact!}
+            <b>${substance.healthImpact!}</b>
         </#compress>
 
 
