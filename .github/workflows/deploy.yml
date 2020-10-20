@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: shut down app as we lack resources
-        run: docker-compose down
+        run: docker-compose down || exit 0
       - name: build
         run: mvn clean install -DskipTests
       - name: deploy
