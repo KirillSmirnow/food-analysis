@@ -10,8 +10,9 @@ open class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-                .antMatchers("/requests/**").permitAll()
-                .anyRequest().authenticated()
+            .antMatchers("/requests/**").permitAll()
+            .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+            .anyRequest().authenticated()
         http.httpBasic()
         http.csrf().disable()
         http.sessionManagement().sessionCreationPolicy(STATELESS)
