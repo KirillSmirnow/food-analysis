@@ -4,7 +4,7 @@ spring:
       database: main
       host: mongo
       username: root
-      password: p7uOsOyR1GhRfqD2xoY0BocRXkUBArug
+      password: ou3QP7sP9q
       authentication-database: admin
   rabbitmq:
     host: rabbitmq

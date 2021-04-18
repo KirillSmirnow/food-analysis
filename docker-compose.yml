@@ -1,25 +1,20 @@
 version: '3'
 services:
   app:
-    build:
-      context: .
+    build: .
     restart: always
     ports:
-      - 80:8080
+      - 10101:8080
   mongo:
     image: mongo
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: p7uOsOyR1GhRfqD2xoY0BocRXkUBArug
-    ports:
-      - 10000:27017
+      MONGO_INITDB_ROOT_PASSWORD: ou3QP7sP9q
     volumes:
       - mongo:/data/db
   rabbitmq:
     image: rabbitmq
     restart: always
-    ports:
-      - 10001:5672
 volumes:
   mongo:
