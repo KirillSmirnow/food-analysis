@@ -17,4 +17,4 @@ spring:
 main:
   telegram-bot:
     username: FoodAnalysisBot
-    token: 1039439731:AAEJfHiV8_tnApfg5cyazlgUT82LgqonMIw
+    token: ${TELEGRAM_BOT_TOKEN}

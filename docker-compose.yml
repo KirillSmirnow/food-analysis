@@ -3,6 +3,8 @@ services:
   app:
     build: .
     restart: always
+    environment:
+      TELEGRAM_BOT_TOKEN:
     ports:
       - 10101:8080
   mongo:
