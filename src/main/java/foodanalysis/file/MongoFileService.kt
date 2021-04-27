@@ -30,6 +30,6 @@ class MongoFileService(private val gridFsTemplate: GridFsTemplate) : FileService
 
     private fun getFile(id: String): GridFSFile {
         return gridFsTemplate.findOne(query(where("_id").isEqualTo(id)))
-                ?: throw MainException("Файл не найден")
+            ?: throw MainException("Файл не найден")
     }
 }

@@ -10,10 +10,11 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class RequestReporterImpl(private val templateProcessor: TemplateProcessor,
-                          private val requestService: RequestService,
-                          private val userService: UserService,
-                          private val bot: Bot
+class RequestReporterImpl(
+    private val templateProcessor: TemplateProcessor,
+    private val requestService: RequestService,
+    private val userService: UserService,
+    private val bot: Bot
 ) : RequestReporter {
 
     override fun sendReportToUser(requestId: UUID) {

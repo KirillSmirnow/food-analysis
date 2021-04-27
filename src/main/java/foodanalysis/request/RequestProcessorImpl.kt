@@ -10,13 +10,14 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class RequestProcessorImpl(private val imageToTextConverter: ImageToTextConverter,
-                           private val requestRepository: RequestRepository,
-                           private val requestReporter: RequestReporter,
-                           private val rabbitTemplate: RabbitTemplate,
-                           private val fileService: FileService,
-                           private val analyser: Analyser,
-                           private val bot: Bot
+class RequestProcessorImpl(
+    private val imageToTextConverter: ImageToTextConverter,
+    private val requestRepository: RequestRepository,
+    private val requestReporter: RequestReporter,
+    private val rabbitTemplate: RabbitTemplate,
+    private val fileService: FileService,
+    private val analyser: Analyser,
+    private val bot: Bot
 ) : RequestProcessor {
 
     override fun performImageDownloading(requestId: UUID) {

@@ -7,12 +7,12 @@ import java.util.*
 import java.util.UUID.randomUUID
 
 data class Request(
-        val id: UUID,
-        val createdOn: LocalDateTime,
-        val userId: UUID,
-        val image: Image? = null,
-        var text: String? = null,
-        var report: Report? = null
+    val id: UUID,
+    val createdOn: LocalDateTime,
+    val userId: UUID,
+    val image: Image? = null,
+    var text: String? = null,
+    var report: Report? = null
 ) {
     companion object {
         fun ofText(userId: UUID, text: String): Request {

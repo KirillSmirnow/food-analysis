@@ -12,12 +12,17 @@ import java.util.*
 
 @RestController
 @RequestMapping("/requests")
-class RequestController(private val requestService: RequestService,
-                        private val userService: UserService,
-                        private val fileService: FileService
+class RequestController(
+    private val requestService: RequestService,
+    private val userService: UserService,
+    private val fileService: FileService
 ) {
     @PostMapping
-    fun create(@RequestParam clientId: String, @RequestParam text: String?, @RequestParam image: MultipartFile?): Request {
+    fun create(
+        @RequestParam clientId: String,
+        @RequestParam text: String?,
+        @RequestParam image: MultipartFile?
+    ): Request {
         userService.authenticate(clientId)
         if (!text.isNullOrBlank()) {
             return requestService.createOfText(text)

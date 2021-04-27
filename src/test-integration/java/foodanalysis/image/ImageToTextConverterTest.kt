@@ -19,10 +19,10 @@ class ImageToTextConverterTest {
         val imageStream = javaClass.getResourceAsStream("/foodanalysis/image/rus-text.jpg")
         val text = imageToTextConverter.convert(imageStream)
         assertThat(text)
-                .containsIgnoringCase("Текст имеет тему")
-                .containsIgnoringCase("В тексте всегда есть главная мысль")
-                .containsIgnoringCase("Текст можно озаглавить")
-                .containsIgnoringCase("В тексте можно выделить части")
-                .containsIgnoringCase("Предложения и части текста связаны между собой")
+            .containsIgnoringCase("Текст имеет тему")
+            .containsIgnoringCase("В тексте всегда есть главная мысль")
+            .containsIgnoringCase("Текст можно озаглавить")
+            .containsIgnoringCase("В тексте можно выделить части")
+            .containsIgnoringCase("Предложения и части текста связаны между собой")
     }
 }

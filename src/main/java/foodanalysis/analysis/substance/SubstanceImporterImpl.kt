@@ -19,14 +19,14 @@ class SubstanceImporterImpl(private val substanceRepository: SubstanceRepository
     private fun parseCsv(inputStream: InputStream): List<Substance> {
         val format = CSVFormat.DEFAULT.withFirstRecordAsHeader()
         return CSVParser.parse(inputStream, StandardCharsets.UTF_8, format).records
-                .map { Substance.of(extractList(it, "Name"), it["Code"], it["HealthImpact"]) }
+            .map { Substance.of(extractList(it, "Name"), it["Code"], it["HealthImpact"]) }
     }
 
     private fun extractList(record: CSVRecord, key: String): List<String> {
         return record.parser.headerNames.withIndex()
-                .filter { it.value == key }
-                .map { record[it.index] }
-                .filterNot { it.isBlank() }
+            .filter { it.value == key }
+            .map { record[it.index] }
+            .filterNot { it.isBlank() }
     }
 
     override fun update(inputStreams: List<InputStream>): SubstanceImport {

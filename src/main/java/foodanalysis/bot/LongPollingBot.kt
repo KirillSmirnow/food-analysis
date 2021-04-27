@@ -14,9 +14,10 @@ import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.Update
 import java.io.InputStream
 
-class LongPollingBot(private val options: BotOptions,
-                     private val userService: UserService,
-                     private val requestService: RequestService
+class LongPollingBot(
+    private val options: BotOptions,
+    private val userService: UserService,
+    private val requestService: RequestService
 ) : TelegramLongPollingBot(options.options), Bot {
 
     init {

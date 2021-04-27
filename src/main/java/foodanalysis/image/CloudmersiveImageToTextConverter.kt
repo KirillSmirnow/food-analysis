@@ -15,11 +15,11 @@ class CloudmersiveImageToTextConverter : ImageToTextConverter {
     private val log = LoggerFactory.getLogger(javaClass)
 
     private val restTemplate = RestTemplateBuilder()
-            .rootUri("https://api.cloudmersive.com")
-            .defaultHeader("apiKey", "8b29a109-06e7-4dc6-9a51-3c6727994348")
-            .defaultHeader("language", "RUS")
-            .defaultHeader("recognitionMode", "Normal")
-            .build()
+        .rootUri("https://api.cloudmersive.com")
+        .defaultHeader("apiKey", "8b29a109-06e7-4dc6-9a51-3c6727994348")
+        .defaultHeader("language", "RUS")
+        .defaultHeader("recognitionMode", "Normal")
+        .build()
 
     override fun convert(imageStream: InputStream): String {
         val formData = LinkedMultiValueMap<String, Any>()
@@ -30,8 +30,8 @@ class CloudmersiveImageToTextConverter : ImageToTextConverter {
     }
 
     private data class Response(
-            @JsonProperty("TextResult") val textResult: String,
-            @JsonProperty("MeanConfidenceLevel") val meanConfidenceLevel: String
+        @JsonProperty("TextResult") val textResult: String,
+        @JsonProperty("MeanConfidenceLevel") val meanConfidenceLevel: String
     ) {
         val normalizedTextResult = textResult.replace(Regex("\\s+"), " ")
     }

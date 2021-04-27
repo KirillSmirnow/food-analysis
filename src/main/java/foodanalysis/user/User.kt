@@ -6,10 +6,10 @@ import java.util.*
 import java.util.UUID.randomUUID
 
 data class User(
-        val id: UUID,
-        val createdOn: LocalDateTime,
-        val clientId: String? = null,
-        val telegramAccount: TelegramAccount? = null
+    val id: UUID,
+    val createdOn: LocalDateTime,
+    val clientId: String? = null,
+    val telegramAccount: TelegramAccount? = null
 ) {
     companion object {
         fun ofClientId(clientId: String): User {

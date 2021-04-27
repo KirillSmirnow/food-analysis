@@ -10,13 +10,13 @@ class UserServiceImpl(private val userRepository: UserRepository) : UserService 
 
     override fun authenticate(clientId: String) {
         val user = userRepository.findByClientId(clientId)
-                ?: userRepository.save(User.ofClientId(clientId))
+            ?: userRepository.save(User.ofClientId(clientId))
         authenticate(user)
     }
 
     override fun authenticate(telegramAccount: TelegramAccount) {
         val user = userRepository.findByTelegramAccountId(telegramAccount.id)
-                ?: userRepository.save(User.ofTelegramAccount(telegramAccount))
+            ?: userRepository.save(User.ofTelegramAccount(telegramAccount))
         authenticate(user)
     }
 

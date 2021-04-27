@@ -13,9 +13,10 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class RequestServiceImpl(private val requestRepository: RequestRepository,
-                         private val rabbitTemplate: RabbitTemplate,
-                         private val userService: UserService
+class RequestServiceImpl(
+    private val requestRepository: RequestRepository,
+    private val rabbitTemplate: RabbitTemplate,
+    private val userService: UserService
 ) : RequestService {
 
     override fun getById(id: UUID): Request {

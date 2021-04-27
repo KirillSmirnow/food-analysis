@@ -31,10 +31,10 @@ class AnalyserCodeFormatTest {
     @Test
     fun `When analyse text with different code formats, then all substances detected`() {
         val text = listOf(
-                "E500", "E-501", "E 502", // uppercase English
-                "e503", "e-504", "e 505", // lowercase English
-                "Е506", "Е-507", "Е 508", // uppercase Russian
-                "е509", "е-510", "е 511"  // lowercase Russian
+            "E500", "E-501", "E 502", // uppercase English
+            "e503", "e-504", "e 505", // lowercase English
+            "Е506", "Е-507", "Е 508", // uppercase Russian
+            "е509", "е-510", "е 511"  // lowercase Russian
         ).joinToString()
         val result = analyser.analyse(text).substances
         assertThat(result).isEqualTo(substanceRepository.findAll())

@@ -30,9 +30,11 @@ class AnalyserTest {
     @Before
     fun setUp() {
         substanceRepository.deleteAll()
-        substanceRepository.saveAll(listOf(
+        substanceRepository.saveAll(
+            listOf(
                 simpleSubstance, longCodeSubstance, longCodeSubstringSubstance, suffixCodeSubstance
-        ))
+            )
+        )
     }
 
     @Test
@@ -67,8 +69,10 @@ class AnalyserTest {
     fun `When analyse text with several substances, then result is ordered by occurrence`() {
         val text = "Contents of the product: flour, eggs, salt, water, E142, E381, E960i and E1422."
         val result = analyser.analyse(text).substances
-        assertThat(result).isEqualTo(listOf(
+        assertThat(result).isEqualTo(
+            listOf(
                 longCodeSubstringSubstance, simpleSubstance, suffixCodeSubstance, longCodeSubstance
-        ))
+            )
+        )
     }
 }
