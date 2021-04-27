@@ -6,6 +6,7 @@ import foodanalysis.request.Request
 import foodanalysis.request.RequestService
 import foodanalysis.user.UserService
 import org.springframework.data.domain.Page
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.util.*
@@ -17,7 +18,7 @@ class RequestController(
     private val userService: UserService,
     private val fileService: FileService
 ) {
-    @PostMapping
+    @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun create(
         @RequestParam clientId: String,
         @RequestParam text: String?,
