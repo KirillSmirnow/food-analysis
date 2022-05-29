@@ -3,6 +3,7 @@ package foodanalysis.image
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.client.RestTemplateBuilder
+import org.springframework.core.env.Environment
 import org.springframework.core.io.InputStreamResource
 import org.springframework.http.HttpEntity
 import org.springframework.stereotype.Service
@@ -10,13 +11,13 @@ import org.springframework.util.LinkedMultiValueMap
 import java.io.InputStream
 
 @Service
-class CloudmersiveImageToTextConverter : ImageToTextConverter {
+class CloudmersiveImageToTextConverter(environment: Environment) : ImageToTextConverter {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
     private val restTemplate = RestTemplateBuilder()
         .rootUri("https://api.cloudmersive.com")
-        .defaultHeader("apiKey", "8b29a109-06e7-4dc6-9a51-3c6727994348")
+        .defaultHeader("apiKey", environment.getProperty("OCR_API_KEY"))
         .defaultHeader("language", "RUS")
         .defaultHeader("recognitionMode", "Normal")
         .build()

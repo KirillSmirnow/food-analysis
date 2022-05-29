@@ -9,6 +9,7 @@ jobs:
     runs-on: self-hosted
     env:
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      OCR_API_KEY: ${{ secrets.OCR_API_KEY }}
     steps:
       - uses: actions/checkout@v2
       - name: shut down app as we lack resources

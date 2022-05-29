@@ -5,6 +5,7 @@ services:
     restart: always
     environment:
       TELEGRAM_BOT_TOKEN:
+      OCR_API_KEY:
     ports:
       - 10101:8080
   mongo:
