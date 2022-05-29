@@ -2,4 +2,3 @@
 ![CD](https://github.com/KirillSmirnow/food-analysis/workflows/CD/badge.svg)
 
 # Food Analysis
-
